@@ -1,0 +1,70 @@
+TDD - test driven development
+proces de dezvoltare software -> transformarea cerintelor de business in teste
+- ajuta la crearea minimului de cod optim necesar implementarii unei functionalitati
+- se concentreaza pe teste, asigurand astfel o aplicatie mai apropiata de nevoile clientului
+- asigura o acoperire mai mare aplicatiei prin teste
+- codul este mai usor de intretinut
+
+testing pyramid -
+1. unit tests - teste de baza, scrise de catre developeri - teste care verifica doar functionalitatea ceruta in
+requirementurile de catre product owner, nu verifica alte componente existente
+2. integration tests - testarea de integrare a feature-ului respectiv in produsul nostru - feature-ul este introdus
+si vedem daca functioneaza cum trebuie sau nu cu restul feature-urilor deja existente -  se integreaza sau nu
+3. end to end tests - testarea de acceptanta - testarea finala - verificam tot flow-ul de la cap la coada - intervin mai multe componente (aprox
+ceea ce am facut noi, front-end si back-end) - toate componentele sunt luate in considerare
+    - alpha testing - de catre dezvoltatori si QA inainte sa fie produsul lansat
+    - beta testing - de catre useri/clienti
+
+
+BDD - derivat din TDD - pune mare accent pe scenariile de test
+- peste codul de testare automata fisierele descriptive ale scenariilor de business care sunt scrise intr-un imbaj pe care sa
+il inteleaga si utilizatorii care nu au cunostinte tehnice = feature files - primele fisiere care se creeaza in procesul BDD
+- fisierele de tip feature vor fi scrise intr-un limbaj numit GHERKIN
+
+GHERKIN/ Feature file
+scenario - testul pe care il facem
+given - context in care ne aflam
+when - cand fac ceva
+then - ce ar trebui sa se intample
+
+daca o actiune se repeta e fot important sa o scriem exact la fel peste tot!
+
+background - un context general tuturor scenariilor din fisierul curent, deci suficient sa scriem un
+given o singura data dar el sa fie folosit practic la fiecare scenario - se scrie dupa feature
+
+Design pattern - BDD se bazeaza pe ceea ce se numeste page object model(POM) care este un design pattern
+= un tipar de definire a codului
+
+
+1. creare proiect nou
+2. director - features
+3. director - steps
+4. fisier python - browser.py
+5. fisier python - environment.py (ft important sa fie scris corect!)
+6. fisier requirements.txt - aici behave, selenium, webdriver (- se poate instala si prin terminal)
+7. director - pages (vom aplica page object model)
+
+-> in features - cream un fisier login.feature - practic aici scriem tot scenariul
+
+-> in steps - cream un fisier steps_login - traduce limbajul gherkin in limbaj python - in primul rand importam din behave tot (from behave import *) + luam din login.feature
+toti pasii/ toate actiunile - cel mai bine cu copy/paste sa nu fie greseli - ii mapam - si definim cate o metoda pentru toti pasii
+(def step_impl(context) )
+    - pentru al doilea scenariu ce este exact la fel ca in primul nu e necesar sa fie mapat inca o data
+        - context-ul o sa-l definim in environment - este o variabila care porneste in environment si va fi folosit in steps
+
+-> in environment - definim doua metode - un before_all si un after_all - FOARTE IMPORTANT SA FIE TOTUL SRIS EXACT ASA CUM TREBUIE
+ALTFEL NIMIC NU VA FUNCTIONA!!!
+
+-> in browser - o clasa Browser in care ii zicem sa foloseasca chrome, sa maximizeze pagina, si implicitly wait - plus definim o metoda close
+    ce am definit in browser urmeaza sa folosim in environment
+
+-> in pages - login_page - cream o clasa LoginPage care va mosteni clasa Browser, si definim o metoda navigate_to_login_page
+
+
+DUPA CE TERMINAM CU TOT -> in terminal scriem behave si ruleaza tot codul
+
+behave --tags=first -> daca vrem sa ruleze primul scenariu
+
+behave -f html -o behave_report.html --tags=first_scenario -> rulare cu raport
+
+
